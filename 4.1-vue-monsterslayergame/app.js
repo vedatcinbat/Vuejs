@@ -9,6 +9,7 @@ const app = Vue.createApp({
             finalSituation: '',
         }
     },
+    // comment here
     methods: {
         attack(whoIsAttacking) {
             let log = '';
