@@ -1,0 +1,630 @@
+### VueJS Notes ###
+
+* What is Vue ?
+- Vue is a progressive JavaScript framework used for building user interfaces,
+primarly for single-page applications but it can also be used for more complex web interfaces
+
+* Why Vue.js is used ?
+- Reactive Data Binding : Vue.js offers a reactive and composable data binding system. This means that whenever the model state changes, the view automatically updates, making it easier to handle dynamic content
+
+- Component-Based Architecture : Like many JS frameworks, Vue.js is built around a component-based architecture. This makes it easy to create reusable components and build large-scale applications
+
+- Ease Of Learning
+
+- Flexibility : Vue.js is flexible and can be integrated into projects that use other JS libraries. It can also function as a full-fledged framework for building complex single-page applications
+
+- Performance
+
+* Differences Between Vue.js and React
+- Conceptual Approach : Vue.js uses a tempate-based approach for its HTML rendering, while React uses JSX, which allows writing in JS
+
+- State Mnagement : Vue -> Vuex | React -> Redux
+
+
+* What kind of projects that can be build with Vue ?
+- Vue.js, being a versatile and performant framework, is well-suited for building a wide range of SPA.
+- SPAs are web applications that load a single HTML page and dynamically update the page as the user interact with the app
+
+- Ecommerce Website | Social Media Platform | Dashboard and Data Visualization Tools | Educational and Learning Management Systems
+
+
+* What is Composition API and Options API
+- In Vue.js, there are primarly two ways to organize and reuse logic across components: the Options API and the Composition API.
+- These two approaches offer different ways of building components and managing their reactive data and functionalities
+
+Options API
+- The Options API is the classic Vue approach that has been in use since Vue's early versions
+- In this API, a Vue component's logic is organized into an options object
+- Each key in this object represenets a different aspect of the components functionality : 
+
+"data" -> A function returning an object that holds the reactive state of the component
+"methods" -> Functions that can be called from the component's template or lifecycle hooks
+"computed" -> Functions that return computed values based on component state, and are re-evaluated only when their dependencies change
+"watch" -> Functions that allow you to watch for changes in reactive data and perform actions in response
+"props" -> For passing data to a child component from a parent
+"lifecycle hooks" -> Function like created, mounted, updated and destroyed that allow you to hook into different stages of a component's lifecycle
+
+Composition API
+- Introduced in Vue 3, the Composition API is an alternative way to compose logic in Vue components. 
+- It provides a more flexible way to organize and reuse code, especially in larger or more complex components. 
+- This API revolves around the setup function, a new component option where you can define reactive state, computed properties, methods, and watch effects using composition functions.
+
+"setup": This function is executed before the component is created, once the props are resolved. It serves as the entry point for composition API logic.
+
+"reactive", ref: Functions to define reactive state. ref is used for primitive values, while reactive is for objects.
+
+"computed": Similar to the Options API but used within the setup function.
+
+"watch" and "watchEffect": Used for side effects and watching reactive dependencies, similar to the Options API but with more control.
+
+"onMounted", "onUpdated", "onUnmounted": Lifecycle hooks used within the setup function.
+
+
+*** Section 2 : Basics & Core Concepts - DOM Interaction with Vue ***
+
+- Vue + HTML = Templates
+- Outputting Dynamic Content
+
+
+<body>
+    <header>
+      <h1>Vue Course Goals</h1>
+    </header>
+    <section id="user-goal">
+      <h2>My Course Goal</h2>
+      <p>{{ courseGoal }}</p> -> Interpolation
+    </section>
+</body>
+
+app.js
+const app = Vue.createApp({
+    data() {
+        return {
+            courseGoal: 'Finish the course and learn Vue!'
+        };
+    }
+});
+
+app.mount("#user-goal");
+
+-> When we count that app to #user-goal element, Vue will replace the content of that element with the content of the template that we defined in the app object
+
+-> When we want to use vue in header section, we can use interpolation like this :
+<header>
+      <h1>Vue Course Goals</h1>
+      <h3>{{ courseGoal }}</h3>
+</header>
+
+-> It will display the title that we defined in the data object
+Vue Course Goals
+{{ title }}
+
+-> Because header part is not controlled by Vue, we can use double curly braces to display the title
+
+
+* Binding Attributes With The "v-bind" Directive
+- What is a directive ?
+- A directive is a special instruction that we can add to the templates
+- They are prefixed with "v-" and they are used to manipulate the behavior of the elements or the DOM
+
+- What is the "v-bind" directive ?
+- The "v-bind" directive allows us to dynamically bind an attribute to an expression
+- We can use it to bind an attribute to a property in the data object
+
+
+* Understanding "methods" in Vue Apps
+
+
+const app = Vue.createApp({
+    data() {
+        return {
+            courseGoal: 'Finish the course and learn Vue!',
+            vueLink: 'https://vuejs.org/'
+        };
+    },
+    methods: {
+        outputGoal() {
+            const randomNum = Math.random();
+            if(randomNum < 0.5) {
+                return 'Learn Vue!';
+            } else {
+                return 'Master Vue!';
+            }
+        }
+    }
+});
+
+<body>
+    ...
+    <section id="user-goal">
+      <h2>My Course Goal</h2>
+      <p>{{ outputGoal() }}</p>
+      <p>{{ 1+1 }}</p>
+      <p>{{ Math.random() }}</p>
+    </section>
+</body>
+
+* Working with Data Inside of a Vue App
+
+data() {
+    return {
+        courseGoalA: 'Finish the course and learn Vue!',
+        courseGoalB: 'Master Vue and build amazing apps!',
+        vueLink: 'https://vuejs.org/'
+    }
+}
+
+methods: {
+    outputGoal() {
+        const randomNum = Math.random();
+        if(randomNum < 0.5) {
+            return this.courseGoalA;
+        } else {
+            return this.courseGoalB;
+        }
+    }
+}
+
+* Outputting Raw HTML Content with v-html
+- What is the "v-html" directive ?
+- The "v-html" directive allows us to output raw HTML content
+- It is used to render HTML content that is stored in a property in the data object
+
+- Example :
+data() {
+    return {
+        courseGoalA: 'Finish the course and learn Vue!',
+        courseGoalB: '<h1>Master Vue and build amazing apps!</h1>',
+        vueLink: 'https://vuejs.org/'
+    }
+}
+
+- We can use v-html directive to render the courseGoalB property
+<p v-html="courseGoalB"></p>
+
+
+- What it means "declerative" ?
+- It means that we define the end result that we want to achieve and Vue will take care of the rest
+- We don't need to worry about how Vue will achieve that result
+
+- How we do in Vue ?
+- We use directives to define the end result that we want to achieve
+- Vue will take care of the rest
+
+* Understanding Event Binding
+
+<button>Add Counter</button>
+<button>Reduce Counter</button>
+<p>{{ counter }}</p>
+
+data() {
+    return {
+        counter: 0
+    }
+}
+
+v-on:click="counter = counter + 1
+v-on:click="counter++"
+v-on:click="counter = counter - 1"
+v-on:click="counter--"
+
+<button v-on:click="counter++">Add</button>
+<button v-on:click="counter--">Reduce</button>
+
+* Events & Methods
+
+<button v-on:click="add">Add</button>
+<button v-on:click="reduce">Reduce</button>
+
+methods: {
+    add() {
+        this.counter = this.counter + 1;
+    },
+    reduce() {
+        this.counter = this.counter - 1;
+    }
+}
+
+
+* Working with Event Arguments
+
+-> We can use v-on:click="add" or v-on:click="reduce" to call the methods
+-> But what if we want to add or reduce a specific number ?
+-> We can use v-on:click="add(10)" or v-on:click="reduce(5)" to call the methods with arguments
+
+<button v-on:click="add(10)">Add 10</button>
+<button v-on:click="reduce(5)">Subtract 5</button>
+
+
+methods: {
+    add(num) {
+        this.counter = this.counter + num;
+    },
+    reduce(num) {
+        this.counter = this.counter - num;
+    }
+}
+
+
+* Using the Native Event Object
+
+
+<input type="text" v-on:input="setName">
+<p>{{ name }}</p>
+
+
+data() {
+    return {
+        name: ''
+    }
+}
+
+methods: {
+    setName(event) {
+        this.name = event.target.value;
+    }
+}
+
+
+or
+
+<input type="text" v-on:input="setName($event, 'Cinbat')">
+<p>{{ name }}</p>
+
+methods: {
+    setName(event, lastName) {
+        this.name = event.target.value + ' ' + lastName;
+    }
+}
+
+
+* Exploring Event Modifiers
+- What is an event modifier ?
+- An event modifier is a directive that allows us to alter the behavior of an event listener
+- We can use them to control how the event listener reacts to the event
+
+- Example :
+
+<button v-on:click.right="reduce(5)">Subtract 5</button>
+<p>{{ counter }}</p>
+
+<input type="text" v-on:input="setName($event, 'Cinbat')" v-on:keyup.enter="confirmInput">
+<p>{{ name }}</p>
+
+data() {
+    return {
+        counter: 0,
+        name: '',
+        confirmedName: ''
+    }
+}
+
+methods: {
+    add(num) {
+        this.counter = this.counter + num;
+    },
+    reduce(num) {
+        this.counter = this.counter - num;
+    },
+    setName(event, lastName) {
+        this.name = event.target.value + ' ' + lastName;
+    },
+    confirmInput() {
+        this.confirmedName = this.name;
+    },
+    submitForm() {
+        alert('Submitted!');
+    }
+}
+
+
+
+* Locking Content with v-once
+
+<p v-once>Starting Counter: {{ counter }}</p>
+<p>Result: {{ counter }}</p>
+
+
+* Data Binding + Event Binding = Two-Way-Binding
+v-model = v-bind:value + v-on:input
+<input type="text" v-model="name" />
+- We are listening and we are updating the value at the same time
+
+
+
+* What We Know (Thus For)
+- DOM Interaction, Templates & Data Binding
+- Event Handling - v-model v-bind v-on v-html v-once
+
+
+<p>Your Name: {{ outputFullName() }}</p>
+
+
+methods: {
+    outputFullName() {
+        if(this.name === '') {
+            return '';
+        }
+        return this.name + ' ' + 'Cinbat';
+    }
+}
+
+-> But whenever we update counter, Vue will re-render the template and it will call the outputFullName() method
+-> We can use computed properties to solve this problem
+
+* Introducing Computed Properties
+- In Vue.js, "computed" properties are a powerful feature used for defining
+properties that are derived from other data properties in your Vue instance
+- A computed propert is essentially a getter fucntion that returns a value
+- It is reactive, meaning it updates automatically when any of the data it depends on changes
+- This makes it extremely useful for performing calculations or processing data dynamically in response
+to changes in your application's state
+
+- Reactivity | Caching | Readability
+
+- Computed properties are used in Vue.js when you need to perform some calculation
+on your data or derive new data based on existing reactive data
+- They help in maintaining a clean and efficient codebase, especially when you have complex logic that
+needs to react to data changes in your application.
+- They are preferable over methods when you need caching and reactivity for calculated properties
+
+
+const app = new Vue.createApp({
+    data() {
+        return {
+            name: ''
+        }
+    }
+    computed: {
+        fullname() {
+            if(this.name === '') {
+                return '';
+            }
+            return this.name + ' ' + 'Cinbat';
+        }
+    }
+});
+
+<button v-on:click="add(5)"">Add 10</button>
+<button v-on:click="reduce(5)">Subtract 5</button>
+-> It will not call the outputFullName() method and re-render the template
+-> It will call the computed property and it will update the template
+
+<p>Your Name: {{ fullname }}</p>
+-> This is how we use computed properties in the template
+
+
+* Working with Watchers
+data() {
+    return {
+        name: '',
+        fullname: ''
+    }
+},
+watch() {
+    name() {} -> Whenever name is change -> this method will be executed
+}
+-> Useful when : sending http request when a property changes | performing asynchronous tasks | performing expensive computations
+
+// q: differences between computed properties and watchers
+// a: computed properties are used to perform calculations based on other data properties
+// watchers are used to perform asynchronous tasks in response to data changes
+
+
+* Methods vs Computed vs Watch
+
+- Methods : Use with event binding or data binding | Data Binding: Method is executed for every "re-render" cycle
+of the component | Use for events or data that really need to be re-evaluated every time
+- Computed  : Use with data binding | Computed  properties only re-evaluated if one of their used values changed | Use for data that
+depends on other data
+- Watchers : Not used directly in template | Allows you to run any code in reaction to
+some changed data (send http req etc) | Use for any non-date update you want to make
+
+
+* v-bind v-on shorthand
+- v-on:click -> @click
+- v-bind:src -> :src
+
+
+* Dynamic Styling with CSS Classes - Basics
+<section id="styling">
+      <div class="demo" v-bind:class={boxASelected ? 'borderColor: red' : ''} @click="boxSelected('A')"></div>
+      <div class="demo" @click="boxSelected(B)"></div>
+      <div class="demo" @click="boxSelected(C)"></div>
+</section>
+
+
+
+app.js
+const app = Vue.createApp({
+    data() {
+        return {
+            boxASelected: false,
+            boxBSelected: false,
+            boxCSelected: false
+        }
+    },
+    methods: {
+        boxSelected(box) {
+            if(box === 'A') {
+                this.boxASelected = !this.boxASelected;
+            } else if(box === 'B') {
+                this.boxBSelected = !this.boxBSelected;
+            } else if(box === 'C') {
+                this.boxCSelected = !this.boxCSelected;
+            }
+        }
+    }
+}).mount("#styling");
+
+div class="demo" :class="boxASelected ? 'demo active' : 'demo'" @click="boxSelected('A')"></div>
+
+
+* Adding CSS Classes Dynamically
+<div :class="{demo: true, active: boxASelected}" @click="boxSelected('A')"></div>
+
+
+<div class = "demo" :class={boxASelected : active} @click="boxSelected('A')"></div>
+<div class = "demo" :class={boxBSelected : active} @click="boxSelected('B')"></div>
+<div class = "demo" :class={boxCSelected : active} @click="boxSelected('C')"></div>
+
+methods: {
+        boxSelected(box) {
+            if(box === 'A') {
+                this.boxASelected = !this.boxASelected;
+            } else if(box === 'B') {
+                this.boxBSelected = !this.boxBSelected;
+            }else if(box === 'C') {
+                this.boxCSelected = !this.boxCSelected;
+            }
+        }
+    }
+
+* Classes & Computed Properties
+
+computed: {
+        boxAClasses() {
+            return {active: this.boxASelected}
+        },
+        boxBClasses() {
+            return {active: this.boxBSelected}
+        },
+        boxCClasses() {
+            return {active: this.boxCSelected}
+        },
+    },
+
+<section id="styling">
+      <div class="demo" :class="boxAClasses" @click="boxSelected('A')"></div>
+      <div class="demo" :class="boxBClasses" @click="boxSelected('B')"></div>
+      <div class="demo" :class="boxCClasses" @click="boxSelected('C')"></div>
+    </section>
+
+
+* Dynamic Classes: Array Syntax
+
+<div class="demo" :class="['demo', {active: boxBSelected}]" @click="boxSelected('B')"></div>
+
+
+
+*** SECTION 3 : Rendering Conditional Content and Lists ***
+* What is conditional rendering ?
+- Conditional rendering in Vue.js refers to the process of displaying or hiding elements
+in your applictaion's UI based on certain conditions.
+- This feature is one of the fundamental aspects of dynamic web applications, allowing developers
+to control what the user sees based on the state of the application, user interactions, or other citeria
+
+-----------------------------------------------------------------------------
+<header>
+      <h1>Vue Course Goals</h1>
+    </header>
+    <section id="user-goals">
+      <h2>My course goals</h2>
+      <input type="text" />
+      <button>Add Goal</button>
+      <p>No goals have been added yet - please start adding some!</p>
+      <ul>
+        <li>Goal</li>
+      </ul>
+    </section>
+-----------------------------------------------------------------------------
+app.js
+const app = Vue.createApp({
+  data() {
+    return {
+      goals: []
+    };
+  },
+});
+
+app.mount('#user-goals');
+
+
+
+<p v-if="goals.length === 0">No goals have been added yet - please start adding some!</p>
+<ul v-else>
+    <li>Goal</li>
+</ul>
+
+<input v-model="enteredGoalValue" type="text" />
+<button @click="addGoal()">Add Goal</button>
+
+
+data() {
+    return {
+        goals: [],
+        enteredGoalValue = "",
+    }
+},
+methods: {
+    addGoal() {
+        this.goals.push(this.enteredGoalValue);
+    }
+}
+
+* v-if, v-else, v-else-if
+- v-else has to locate right after v-if
+<.... v-if="...."></....>
+<.... v-else-if="...."></....>
+<.... v-else></....>
+
+* Using v-show instead of v-if
+- v-show is hidden with css
+- v-if is not rendered at all
+- use v-show when you need to toggle something very often
+- use v-if when you know that your element will not be toggled often
+
+* Rendering List of Data with v-for
+
+<ul>
+    <li v-for="goal in goals">{{ goal }}</li>
+</ul>
+
+
+* Diving Deeper into v-for
+
+<ul v-else>
+    <li v-for="(goal, index) in goals">{{ goal }} - {{ index }}</li>
+</ul>
+<ul>
+    <li v-for="(value, key, index) in {name: 'Vedat', age: 21}">{{ key }}:{{ value }} - {{ index }}</li>
+</ul>
+<ul>
+    <li v-for="num in 10">{{ num }}</li>
+</ul>
+
+
+* Remove List Items
+<ul>
+    <li v-for="goal in goals" @click="removeGoal(index)>{{ goal }}</li>
+</ul>
+
+methods: {
+    removeGoal(index) {
+        this.goals.splice(index, 1);
+    }
+}
+
+* List & Keys
+<ul v-else>
+    <li v-for="(goal, index) in goals" :key="goal" @click="removeGoal(index)">
+        <p>{{ goal }} - {{ index }}</p>
+        <input type="text" @click.stop>
+    </li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Monster Slayer</h1>
+    </header>
+    <div id="game">
+      <section>
+        <h2>PLAYER - {{this.playerHealth}}</h2>
+        <h2>ENEMY - {{this.enemyHealth}}</h2>
+      </section>
+      <section id="monster" class="container" v-if="isGameRunning">
+        <h2>Monster Health</h2>
+        <div class="healthbar">
+          <div class="healthbar__value" :style="enemyBarStyles"></div>
+        </div>
+      </section>
+      <section id="player" class="container" v-if="isGameRunning">
+        <h2>Your Health</h2>
+        <div class="healthbar">
+          <div class="healthbar__value" :style="playerBarStyles"></div>
+        </div>
+      </section>
+      <section v-if="!isGameRunning">
+        <h2>{{finalSituation}}</h2>
+        <button @click="startGame">START NEW GAME</button>
+      </section>
+      <section id="controls">
+        <button @click="attack(currentUser)">ATTACK</button>
+        <button @click="specialAttack(currentUser)">SPECIAL ATTACK</button>
+        <button @click="heal(currentUser)">HEAL</button>
+        <button @click="surrender(currentUser)">SURRENDER</button>
+      </section>
+      <section id="log" class="container">
+        <h2>Battle Log</h2>
+        <ul v-if="logs.length > 0">
+          <li v-for="(log, index) in logs">
+            <p>{{ log }}</p>
+          </li>
+        </ul>
+        <p v-else>There is no log yet !</p>
+      </section>
+    </div>
+  </body>
+</html>
