@@ -52,7 +52,7 @@ header {
 }
 
 #app input,
-#app2 input
+#app2 input {
   font: inherit;
   border: 1px solid #ccc;
 }
