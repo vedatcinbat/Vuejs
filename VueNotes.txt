@@ -614,16 +614,42 @@ methods: {
 </ul>
 
 
+*** SECTION 5 : Vuejs Behind The Scenes ***
+
+- It saves the input every time we type something
+!! <input type="text" @input="saveInput"> !!
+
+* Understanding Templates
+- Vue.js uses an HTML-based template syntax that allows you to declaratively bind the rendered DOM to the underlying Vue instance's data
+- All Vue.js templates are valid HTML that can be parsed by spec-compliant browsers and HTML parsers
+- Under the hood, Vue compiles the templates into Virtual DOM render functions
+- Combined with the reactivity system, Vue is able to calculate the minimal number of components to re-render and apply the minimal amount of DOM manipulations when the app state changes
+
+* What is the Virtual DOM ?
+- The Virtual DOM is an abstraction of the HTML DOM
+- It is lightweight and detached from the browser-specific implementation details
+- Because the Virtual DOM is a JavaScript object, manipulating it is much faster than manipulating the browser's DOM
+- Manipulating the browser's DOM is slow because it involves browser reflow and repaint
+- The Virtual DOM is a representation of the HTML DOM in the form of a JavaScript object
 
 
-
-
-
-
-
-
-
-
+* Vue Instance Llifecycle
+createApp()
+beforeCreate()
+created()
+beforeMount()
+mounted()
+Mounted Vue Instance
+|
+o
+---------------------------
+Data Changes
+beforeUpdate()
+updated()
+---------------------------
+Instance Unmounted
+beforeUnmount()
+unmounted()
 
 
 
