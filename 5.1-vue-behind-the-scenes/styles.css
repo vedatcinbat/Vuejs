@@ -52,19 +52,19 @@ header {
 }
 
 #app input,
-#app2 input
+#app2 input {
   font: inherit;
   border: 1px solid #ccc;
 }
 
-#app input:focus
+#app input:focus,
 #app2 input:focus{
   outline: none;
   border-color: #1b995e;
   background-color: #d7fdeb;
 }
 
-#app button
+#app button,
 #app2 button{
   font: inherit;
   cursor: pointer;
