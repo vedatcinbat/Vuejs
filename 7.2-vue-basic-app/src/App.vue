@@ -7,6 +7,10 @@
       <friend-contact></friend-contact>
       <friend-contact></friend-contact>
       <profile-card></profile-card>
+      <component-a></component-a>
+      <component-b></component-b>
+      <component-c></component-c>
+      <test-component></test-component>
     </ul>
   </section>
 </template>
