@@ -653,4 +653,84 @@ unmounted()
 
 
 
+*** SECTION 5 : Introducing Components ***
+- Components in Vue.js are one of the most powerful features of the framework, oferring
+a way to build large-scale applications as a suite of small, self-contained, and often
+reusable units
+
+- Encapulation: Components allow you to encapsulate your code into smaller units
+- Reusability: Components are designed to be reused throughout your application
+- Maintainability: Components make your code more maintainable by breaking it down into smaller pieces
+- Separation of Concerns: Components allow you to separate your UI into independent, reusable pieces
+- Ease of Use: Components are easy to use and allow you to build complex applications with ease
+
+
+const app = Vue.createAPp({
+    data() {
+        return {
+            friends: [
+            {
+                id: 'manuel',
+                name: 'Manuel Lorenz',
+                phone: '01234 5678 991',
+                email: '
+                },
+                {
+                    id: 'julie',
+                    name: 'Julie Jones',
+                    phone: '09876 543 221',
+                    email: '
+                },
+        };
+    },
+});
+
+app.component('friend-contact', {
+    template: `
+        <li>
+          <h2>{{ friend.name }}</h2>
+          <button @click="toggleDetails">{{detailsAreVisible ? 'Hide' : 'Show'}} Details</button>
+          <ul v-if="detailsAreVisible">
+            <li><strong>Phone:</strong> {{ friend.phone }}</li>
+            <li><strong>Email:</strong> {{ friend.email }}</li>
+          </ul>
+        </li>`,
+    },
+    data() {
+        return {
+           friend: {
+                id: 'manuel',
+                name: 'Manuel Lorenz',
+                phone: '01234 5678 991',
+                email: 'manuel@localhost.com'
+           },
+           detailsAreVisible: false
+        }
+    },
+    methdos: {
+       toggleDetails() {
+            this.detailsAreVisible = !this.detailsAreVisible;
+       }
+    }
+});
+
+
+
+app.mount('#app');
+
+
+index.html
+
+<body>
+    <div id="app">
+        <friend-contact></friend-contact>
+        <friend-contact></friend-contact>
+        <friend-contact></friend-contact>
+    </div>
+</body>
+
+
+
+
+
 
