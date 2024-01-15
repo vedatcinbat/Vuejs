@@ -729,6 +729,149 @@ index.html
     </div>
 </body>
 
+*** SECTION 7 : Moving to a Better Development Setup & Workflow with the Vue CLI ***
+- Double-clicking index.html doesnt run the app under realistic circumstances
+-> We use the file:// protocol instread of the https:// protocol
+-> Some features will not work there
+-> The final, deployed app will be served via https:// not via file://
+-> We need a development web server
+-> LOCALHOST
+
+
+> npm install -g @vue/cli
+> vue --version
+> vue create vue-complete-guide
+> cd vue-complete-guide
+> npm run serve
+------------------------------------------------------------------------------------------------------------------------
+index.html
+<body>
+    <div id="app"></div>
+</body>
+-> This is how we use Vue in index.html
+
+main.js
+import { createApp } from 'vue';
+import App from './App.vue';
+
+createApp(App).mount('#app');
+
+------------------------------------------------------------------------------------------------------------------------
+App.vue
+<template>
+    <h1>Vue App</h1>
+</template>
+
+<script>
+export default {
+    name: 'App'
+}
+</script>
+------------------------------------------------------------------------------------------------------------------------
+FriendContact.vue
+<template>
+    <li>
+        <h2>{{ friend.name }}</h2>
+        <button @click="toggleDetails">{{detailsAreVisible ? 'Hide' : 'Show'}} Details</button>
+        <ul v-if="detailsAreVisible">
+            <li><strong>Phone:</strong> {{ friend.phone }}</li>
+            <li><strong>Email:</strong> {{ friend.email }}</li>
+        </ul>
+    </li>
+</template>
+
+<script>
+export default {
+    data() {
+        return {
+            friend: {
+                id: 'manuel',
+                name: 'Manuel Lorenz',
+                phone: '01234 5678 991',
+                email: '',
+            },
+            detailsAreVisible: false
+        }
+    },
+    methods: {
+        toggleDetails() {
+            this.detailsAreVisible = !this.detailsAreVisible;
+        }
+    }
+}
+</script>
+------------------------------------------------------------------------------------------------------------------------
+main.js
+import { createApp } from 'vue';
+import App from './App.vue';
+import FriendContact from './components/FriendContact.vue';
+
+const app = createApp(App);
+
+app.component('friend-contact', FriendContact);
+
+app.mount('#app');
+
+------------------------------------------------------------------------------------------------------------------------
+App.vue
+<template>
+  <section>
+    <h2>My Friends</h2>
+    <ul>
+      <friend-contact></friend-contact>
+      <friend-contact></friend-contact>
+    </ul>
+  </section>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      friends: [
+        {
+          id: 'manuel',
+          name: 'Manuel Lorenz',
+          phone: '01234 5678 991',
+          email: 'manuel@localhost.com'
+        },
+        {
+          id: 'julie',
+          name: 'Julie Jones',
+          phone: '09876 543 221',
+          email: 'julie@localhost.com',
+        }
+      ]
+    }
+  },
+}
+</script>
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
