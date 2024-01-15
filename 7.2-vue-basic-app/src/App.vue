@@ -6,6 +6,7 @@
     <ul>
       <friend-contact></friend-contact>
       <friend-contact></friend-contact>
+      <profile-card></profile-card>
     </ul>
   </section>
 </template>
@@ -26,7 +27,21 @@ export default {
           name: 'Julie Jones',
           phone: '09876 543 221',
           email: 'julie@localhost.com',
-        }
+        },
+      ],
+      profiles: [
+        {
+          id: 1,
+          name: 'Manuel Lorenz',
+          phone: '01234 5678 991',
+          img: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
+        },
+        {
+          id: 2,
+          name: 'Julie Jones',
+          phone: '09876 543 221',
+          img: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
+        },
       ]
     }
   },
