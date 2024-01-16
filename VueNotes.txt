@@ -633,7 +633,7 @@ methods: {
 - The Virtual DOM is a representation of the HTML DOM in the form of a JavaScript object
 
 
-* Vue Instance Llifecycle
+* Vue Instance Lifecycle
 createApp()
 beforeCreate()
 created()
@@ -847,30 +847,199 @@ export default {
 }
 </script>
 ------------------------------------------------------------------------------------------------------------------------
+*** SECTION 8 : Component Communication & Reusable Components ***
+
+main.js
+import { createApp } from 'vue';
+import App from './App.vue';
+import FriendContact from './components/FriendContact.vue';
+
+const app = createApp(app);
+app.component('friend-contact', FriendContact);
+
+app.mount('#app');
+
+-->
+App.vue
+
+<template>
+    <h1>Vue App</h1>
+    <ul>
+        <friend-contact
+            name="Manuel Lorenz"
+            phone-number="01234 5678 991"
+            email-address="manuel@localhost.com"
+        ></friend-contact>
+        <friend-contact
+            name="Julie Jones"
+            phone-number="01234 5678 991"
+            email-address="julie@localhost.com"
+        ></friend-contact>
+    </ul>
+</template>
+
+<script>
+
+</script>
+
+<style>
+</style>
+------------------------------------------------------------------------------------------------------------------------
+FriendContact.vue
+<template>
+    <li>
+        <h2>{{ name }}</h2>
+        <button @click="toggleDetails">{{ detailsAreVisible ? 'Hide' : 'Show' }} Details</button>
+        <ul v-if="detailsAreVisible">
+          <li>
+            <strong>Phone:</strong>
+            {{ phoneNumber }}
+          </li>
+          <li>
+            <strong>Email:</strong>
+            {{ emailAddress }}
+          </li>
+        </ul>
+      </li>
+</template>
+
+<script>
+export default {
+    props: [
+        'name',
+        'phoneNumber',
+        'emailAddress'
+    ],
+    data() {
+        return {
+              detailsAreVisible: false
+        }
+    },
+    methods() {
+        toggleDetails() {
+            this.detailsAreVisible = !this.detailsAreVisible;
+        }
+    }
+}
+
+</script>
 
 
+------------------------------------------------------------------------------------------------------------------------
+* Prop Behavior & Changing Props
+- The props of a component are passed down from the parent component
+- The parent component can pass data to the child component via props
+- The child component can use the props to render its template
+- The child component can also use the props to perform some actions
+- The child component cannot change the props passed down from the parent component
+- The parent component can change the props passed down to the child component
+
+* Uni-directional Data Flow
+- Props are used to pass data from parent to child components
+- Props are read-only and cannot be changed by the child component
+- Props are passed down from parent to child components
+- Props are used to communicate from child to parent components
+- Props can be changed by the parent component
 
 
+<h1>{{ name }} - {{friendIsFavorite === "1" ? "(Favorite)" : ""}}</h1>
+<button @click="toggleFavorite">Toggle Favorite</button>
 
 
+<script>
+    export default {
+        props: [
+            'name',
+            'phoneNumber',
+            'emailAddress',
+            'isFavorite'
+        ],
+        data() {
+            return {
+               detailsAreVisible: false,
+               friendIsFavorite: this.isFavorite
+            }
+        },
+        methods: {
+            toggleFavorite() {
+               if(this.friendIsFavorite === "1") {
+                   this.friendIsFavorite = "0";
+               } else {
+                   this.friendIsFavorite = "1";
+               }
+            }
+        }
+    }
+</script>
+
+------------------------------------------------------------------------------------------------------------------------
+* Validating Props
+- Props are validated before the component instance is created
+- Props are validated using the "props" option
+- Props are validated using the "type" option
+- Props are validated using the "required" option
+- Props are validated using the "default" option
+- Props are validated using the "validator" option
 
 
+export default {
+    props: {
+        name: {
+          type: String,
+          required: true
+        },
+        phoneNumber: {
+          type: String,
+          required: true
+        },
+        emailAddress: {
+          type: String,
+          required: true
+        },
+        isFavorite: {
+          type: String,
+          required: false,
+          default: '0',
+          validator: function(value) {
+            return value === '0' || value === '1';
+          }
+        }
+      },
+}
 
 
+* Working with Dynamic Prop Values
+- We can use v-bind directive to bind a dynamic value to a prop
+- We can loop through an array of data and pass each item as a prop to a child component
+- We can use v-for directive to loop through an array of data and pass each item as a prop to a child component
 
 
+<friend-contact
+    v-for="(friend) in friends"
+    :key="friend.id"
+    :name="friend.name"
+    :phone-number="friend.phone"
+    :email-address="friend.email"
+    :is-favorite="false">
+</friend-contact>
 
 
-
-
-
-
-
-
-
-
-
-
+data() {
+    return {
+        friends: [
+            {
+                name: 'Manuel Lorenz',
+                phone: '01234 5678 991',
+                email: '',
+            },
+            {
+                name: 'Julie Jones',
+                phone: '01234 5678 991',
+                email: '',
+            }
+        ],
+    }
+}
 
 
 
